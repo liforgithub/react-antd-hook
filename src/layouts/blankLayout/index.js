@@ -1,9 +1,5 @@
 import React from 'react'
 
-const BlankLayout = ({route, children}) => {
-    return (
-        <>{ children }</>
-    )
-}
+const BlankLayout = ({ children }) => <>{ children }</>
 
 export default BlankLayout

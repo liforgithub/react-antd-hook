@@ -1,6 +1,7 @@
 import {lazy} from 'react'
 import BlankLayout from '../layouts/blankLayout'
 import BasicLayout from '../layouts/basicLayout'
+import UserLayout from '../layouts/userLayout'
 
 const router = [
     {
@@ -8,10 +9,29 @@ const router = [
         component: BlankLayout,
         children: [
             {
-                path: '/login',
-                name: '登陆页',
-                exact: true,
-                component: lazy(() => import('../pages/login'))
+                path: '/user',
+                component: UserLayout,
+                children: [
+                    {
+                        path: '/user/login',
+                        name: '登陆',
+                        component: lazy(() => import('../pages/user/login'))
+                    },
+                    {
+                        path: '/user/register',
+                        name: '注册',
+                        component: lazy(() => import('../pages/user/register'))
+                    },
+                    {
+                        path: '/user/registerResult',
+                        name: '注册结果',
+                        component: lazy(() => import('../pages/user/registerResult'))
+                    },
+                    {
+                        path: '/user',
+                        redirect: '/user/login'
+                    },
+                ]
             },
             {
                 path: '/',
@@ -26,6 +46,10 @@ const router = [
                         path: '/demo1',
                         name: 'demo1',
                         children: [
+                            {
+                                path: '/demo1',
+                                redirect: '/demo1/option1'
+                            },
                             {
                                 path: '/demo1/option1',
                                 name: 'option1',

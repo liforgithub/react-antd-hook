@@ -9,7 +9,7 @@ import {
 } from '@ant-design/icons';
 import { Layout, Breadcrumb, Space, Avatar, Badge, Menu, Dropdown, Modal } from 'antd'
 import { Link, useLocation, useHistory } from 'react-router-dom'
-import './style.css'
+import styles from './style.less'
 import localStorage from '../../utils/localStorage'
 
 
@@ -108,9 +108,9 @@ const BasicLayout = ({route, children}) => {
     }
 
     return (
-        <Layout className="customer-component-layout">
-            <Sider trigger={null} collapsible collapsed={collapsed} className="sider">
-                <div className="logo" />
+        <Layout className={styles.customer_component_layout}>
+            <Sider trigger={null} collapsible collapsed={collapsed} className={styles.sider}>
+                <div className={styles.logo} />
                 <Menu 
                     theme="dark" 
                     mode="inline"
@@ -122,16 +122,16 @@ const BasicLayout = ({route, children}) => {
                 </Menu>
             </Sider>
             <Layout 
-                className="right-main-layout"
+                className={styles.right_main_layout}
                 style={{
                     marginLeft: !collapsed ? 200 : 80,
                 }}
             >
-                <Header className="header">
+                <Header className={styles.header}>
                     <div style={{display: 'flex', alignItems: 'center'}}>
                         {
                             React.createElement(collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
-                                className: 'trigger',
+                                className: styles.trigger,
                                 onClick: () => setCollapsed(!collapsed),
                             })
                         }
@@ -163,7 +163,7 @@ const BasicLayout = ({route, children}) => {
                         </Dropdown>
                     </Space>
                 </Header>
-                <Content className="content">
+                <Content className={styles.content}>
                     {children}
                 </Content>
             </Layout>

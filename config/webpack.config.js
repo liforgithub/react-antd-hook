@@ -49,6 +49,8 @@ const cssRegex = /\.css$/;
 const cssModuleRegex = /\.module\.css$/;
 const sassRegex = /\.(scss|sass)$/;
 const sassModuleRegex = /\.module\.(scss|sass)$/;
+const lessRegex = /\.less$/;
+const lessModuleRegex = /\.module\.less$/
 
 // This is the production and development configuration.
 // It is focused on developer experience, fast rebuilds, and a minimal bundle.
@@ -110,6 +112,26 @@ module.exports = function(webpackEnv) {
       },
     ].filter(Boolean);
     if (preProcessor) {
+
+      let preProcessorRule = {
+        loader: require.resolve(preProcessor),
+        options: {
+          sourceMap: true
+        }
+      }
+
+      if (preProcessor === 'less-loader') {
+        preProcessorRule = {
+          loader: require.resolve(preProcessor),
+          options: {
+            sourceMap: true,
+            lessOptions: { // 如果使用less-loader@5，需要移除 lessOptions 这一级
+              javascriptEnabled: true
+            }
+          }
+        }
+      }
+
       loaders.push(
         {
           loader: require.resolve('resolve-url-loader'),
@@ -117,12 +139,7 @@ module.exports = function(webpackEnv) {
             sourceMap: isEnvProduction && shouldUseSourceMap,
           },
         },
-        {
-          loader: require.resolve(preProcessor),
-          options: {
-            sourceMap: true,
-          },
-        }
+        preProcessorRule
       );
     }
     return loaders;
@@ -483,6 +500,34 @@ module.exports = function(webpackEnv) {
                   },
                 },
                 'sass-loader'
+              ),
+            },
+            {
+              test: lessRegex,
+              exclude: lessModuleRegex,
+              use: getStyleLoaders(
+                {
+                  importLoaders: 3,
+                  sourceMap: isEnvProduction && shouldUseSourceMap,
+                  modules: {
+                    getLocalIdent: getCSSModuleLocalIdent,
+                  },
+                },
+                'less-loader'
+              ),
+              sideEffects: true,
+            },
+            {
+              test: lessModuleRegex,
+              use: getStyleLoaders(
+                {
+                  importLoaders: 2,
+                  sourceMap: isEnvProduction && shouldUseSourceMap,
+                  modules: {
+                      getLocalIdent: getCSSModuleLocalIdent
+                  }
+                },
+                'less-loader'
               ),
             },
             // "file" loader makes sure those assets get served by WebpackDevServer.
