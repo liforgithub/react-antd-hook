@@ -67,50 +67,6 @@ const rowSelection = {
     }),
 };
 
-const fetch = async () => {
-    setTimeout(() => {
-        let data = [
-            {
-                id: 1,
-                name: "张三",
-                gender: 1,
-                email: '1@123'
-            },
-            {
-                id: 2,
-                name: "张三02",
-                gender: 1,
-                email: '1@123'
-            },
-            {
-                id: 3,
-                name: "张三03",
-                gender: 2,
-                email: '1@123'
-            },
-            {
-                id: 4,
-                name: "张三04",
-                gender: 2,
-                email: '1@123'
-            },
-            {
-                id: 5,
-                name: "张三05",
-                gender: 1,
-                email: '1@123'
-            },
-            {
-                id: 6,
-                name: "张三06",
-                gender: 1,
-                email: '1@123'
-            }
-        ]
-        return data;
-    }, 2000)
-}
-
 const handleTableChange = (pagination, filters, sorter) => {
     console.log(pagination)
     console.log(filters)

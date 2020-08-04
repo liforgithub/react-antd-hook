@@ -5,3 +5,6 @@
 .ant-menu {
   transition: width .5s linear !important;
 }
+.ant-layout-header {
+  line-height: 0 !important;
+}

@@ -11,6 +11,7 @@
 }
 .customer-component-layout .trigger {
     font-size: 18px;
+    padding-right: 13px;
     cursor: pointer;
     transition: color 0.3s;
 }

@@ -30,6 +30,11 @@ const router = [
                                 path: '/demo1/option1',
                                 name: 'option1',
                                 component: lazy(() => import('../pages/demo1/option1'))
+                            },
+                            {
+                                path: '/demo1/option3',
+                                name: 'option3',
+                                component: lazy(() => import('../pages/demo1/option3'))
                             }
                         ]
                     },

@@ -4,12 +4,15 @@ import {
     MenuFoldOutlined,
     BellOutlined,
     UserOutlined,
-    VideoCameraOutlined,
-    UploadOutlined
+    LogoutOutlined,
+    ExclamationCircleOutlined
 } from '@ant-design/icons';
-import { Layout, Breadcrumb, Space, Avatar, Badge, Menu, Dropdown } from 'antd'
-import { Link, useLocation } from 'react-router-dom'
+import { Layout, Breadcrumb, Space, Avatar, Badge, Menu, Dropdown, Modal } from 'antd'
+import { Link, useLocation, useHistory } from 'react-router-dom'
 import './style.css'
+import localStorage from '../../utils/localStorage'
+
+
 const { Sider, Header, Content } = Layout
 
 const renderMenuItem = (routes) => {
@@ -34,16 +37,75 @@ const BasicLayout = ({route, children}) => {
 
     const { pathname } = useLocation()
     const [openKeys, setOpenKeys] = useState([]);
+    const [bremList, setBremList] = useState([])
+
+    const history = useHistory()
+    history.listen(() => {
+        const list = history.location.pathname.split('/').splice(1);
+        let selectedKeys = list.map((item, index) => `/${list.slice(0, index + 1).join('/')}`)
+        setBreadcrumbList(selectedKeys)
+    })
 
     useEffect(() => {
         const list = pathname.split('/').splice(1);
-        setOpenKeys(list.map((item, index) => `/${list.slice(0, index + 1).join('/')}`));
+        let selectedKeys = list.map((item, index) => `/${list.slice(0, index + 1).join('/')}`)
+        setOpenKeys(selectedKeys);
+        setBreadcrumbList(selectedKeys)
     }, []);
+
+    const setBreadcrumbList = selectedKeys => {
+
+        let itemList = route.children.slice()
+        let bList = []
+        for (let i = 0; i < selectedKeys.length; i++) {
+            let menu = itemList.find(m => m.path == selectedKeys[i])
+            console.log(menu)
+            if (!menu) {
+                break;
+            }
+            bList.push({
+                path: menu.path,
+                title: menu.name,
+            })
+            itemList = menu.children
+        }
+        setBremList(bList)
+    }
 
     const getSelectedKeys = useMemo(() => {
         const list = pathname.split('/').splice(1);
         return list.map((item, index) => `/${list.slice(0, index + 1).join('/')}`);
     }, [pathname]);
+
+    const avatarMenu = () => {
+        return (
+            <Menu>
+                <Menu.Item key="1" icon={<UserOutlined />}>
+                    个人信息
+                </Menu.Item>
+                <Menu.Divider />
+                <Menu.Item 
+                    key="2" 
+                    icon={<LogoutOutlined />}
+                    onClick={() => {
+                        Modal.confirm({
+                            title: '操作确认',
+                            icon: <ExclamationCircleOutlined />,
+                            content: '现在退出登录吗？',
+                            okText: '确认',
+                            onOk() {
+                                localStorage.set('token', null)
+                                history.push('/login')
+                            },
+                            cancelText: '取消',
+                          });
+                    }}
+                >
+                    退出登录
+                </Menu.Item>
+            </Menu>
+        )
+    }
 
     return (
         <Layout className="customer-component-layout">
@@ -54,6 +116,7 @@ const BasicLayout = ({route, children}) => {
                     mode="inline"
                     openKeys={openKeys}
                     selectedKeys={getSelectedKeys}
+                    onOpenChange={openKeys => setOpenKeys(openKeys)}
                 >
                     {renderMenuItem(route.children)}
                 </Menu>
@@ -65,12 +128,40 @@ const BasicLayout = ({route, children}) => {
                 }}
             >
                 <Header className="header">
-                    {
-                        React.createElement(collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
-                            className: 'trigger',
-                            onClick: () => setCollapsed(!collapsed),
-                        })
-                    }
+                    <div style={{display: 'flex', alignItems: 'center'}}>
+                        {
+                            React.createElement(collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
+                                className: 'trigger',
+                                onClick: () => setCollapsed(!collapsed),
+                            })
+                        }
+                        <Breadcrumb>
+                            <Breadcrumb.Item>
+                                <Link to="/home">首页</Link>
+                            </Breadcrumb.Item>
+                            {
+                                bremList.map((item, index) => {
+                                    return (
+                                        <Breadcrumb.Item key={index}>
+                                            {
+                                                index == bremList.length - 1 ? <Link to={item.path}>{item.title}</Link> : item.title
+                                            }
+                                        </Breadcrumb.Item>
+                                    )
+                                })
+                            }
+                        </Breadcrumb>
+                    </div>
+                    <Space size='large' align="center">
+                        <Badge dot={true}>
+                            <BellOutlined style={{fontSize: 23, cursor: 'pointer'}} />
+                        </Badge>
+                        <Dropdown overlay={avatarMenu} placement="bottomLeft" arrow>
+                            <Badge dot={false}>
+                                <Avatar style={{cursor: 'pointer'}} shape="circle" icon={<UserOutlined />} />
+                            </Badge>
+                        </Dropdown>
+                    </Space>
                 </Header>
                 <Content className="content">
                     {children}
