@@ -2,6 +2,8 @@ import React from 'react'
 import { Tabs, Radio } from 'antd';
 import styles from "./style.less"
 import BasicSettings from './components/basicSettings/index'
+import SecuritySettings from './components/securitySettings'
+import NewMessageNotification from './components/newMessageNotification'
 
 const { TabPane } = Tabs;
 
@@ -16,13 +18,16 @@ const Settings = () => {
                     </div>
                 </TabPane>
                 <TabPane tab="安全设置" key="securitySettings">
-
-                </TabPane>
-                <TabPane tab="账号绑定" key="accountBind">
-
+                    <div className={styles.right}>
+                        <div className={styles.title}>安全设置</div>
+                        <SecuritySettings />
+                    </div>
                 </TabPane>
                 <TabPane tab="新消息通知" key="newMessageNotification">
-
+                    <div className={styles.right}>
+                        <div className={styles.title}>新消息通知</div>
+                        <NewMessageNotification />
+                    </div>
                 </TabPane>
             </Tabs>
         </div>
