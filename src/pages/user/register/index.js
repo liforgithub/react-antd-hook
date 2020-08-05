@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
+import React, { useState, useCallback, useEffect } from 'react'
 import { useHistory, Link } from "react-router-dom";
-import { Tabs, Form, Input, Row, Col, Button, Popover, Progress } from 'antd';
+import { Tabs, Form, Input, Row, Col, Button, Popover, Progress, message } from 'antd';
 import styles from './style.less'
 
 const { TabPane } = Tabs;
@@ -10,7 +10,7 @@ const formRules = {
     mobile: [
         {
           required: true,
-          message: '是那个输入手机号码',
+          message: '请输入手机号码',
         },
         {
           pattern: /^1\d{10}$/,
@@ -25,6 +25,37 @@ const Register = () => {
     const [form] = Form.useForm();
     const [visible, setVisible] = useState(false);
     const [popover, setPopover] = useState(false);
+    const [count, setCount] = useState(120)
+    const [timing, setTiming] = useState(false)
+
+    const getCaptcha = useCallback(async () => {
+        form.validateFields(['mobile'])
+            .then(({ mobile }) => {
+                message.success(mobile + ' 获取验证码成功！验证码为：1234');
+                setTiming(true)
+            })
+            .catch(err => {
+                console.log(err)
+            })
+    })
+    useEffect(() => {
+        let interval = 0;
+        if (timing) {
+            interval = setInterval(() => {
+                setCount(preCount => {
+                    if (preCount <= 1) {
+                        setTiming(false)
+                        clearInterval(interval)
+                        return 120
+                    }
+
+                    return preCount - 1
+                })
+            }, 1000)
+        }
+        return () => clearInterval(interval)
+    }, [timing])
+
     const confirmDirty = false;
 
     const passwordStatusMap = {
@@ -191,11 +222,12 @@ const Register = () => {
                             </Col>
                             <Col span={8}>
                                 <Button
-                                    disabled={false}
+                                    disabled={timing}
                                     className={styles.getCaptcha}
                                     size="large"
+                                    onClick={() => getCaptcha()}
                                 >
-                                    获取验证码
+                                    { timing ? `${count}秒`: '获取验证码' }
                                 </Button>
                             </Col>
                         </Row>

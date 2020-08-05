@@ -13,7 +13,7 @@ const formRules = {
     mobile: [
         {
           required: true,
-          message: '是那个输入手机号码',
+          message: '请输入手机号码',
         },
         {
           pattern: /^1\d{10}$/,
@@ -26,17 +26,23 @@ const formRules = {
 const Login = () => {
 
     let history = useHistory();
-
     const [timing, setTiming] = useState(false)
     const [loginInfo, setLoginType] = useState({status: '', loginType: 'account'})
     const [tabKey, setTabKey] = useState('account')
     const [autoLogin, setAutoLogin] = useState(true);
     const [count, setCount] = useState(120)
 
-    const getCaptcha = useCallback(async mobile => {
+    const [form] = Form.useForm();
 
-        message.success('获取验证码成功！验证码为：1234');
-        setTiming(true)
+    const getCaptcha = useCallback(async () => {
+        form.validateFields(['mobile'])
+            .then(({ mobile }) => {
+                message.success(mobile + ' 获取验证码成功！验证码为：1234');
+                setTiming(true)
+            })
+            .catch(err => {
+                console.log(err)
+            })
     })
     useEffect(() => {
         let interval = 0;
@@ -56,9 +62,8 @@ const Login = () => {
         return () => clearInterval(interval)
     }, [timing])
 
-    const [form] = Form.useForm();
-
     const onFinish = values => {
+        history.push('/home')
         console.log(values);
       };
 
@@ -103,23 +108,23 @@ const Login = () => {
                             <Form.Item name="mobile" rules={formRules.mobile}>
                                 <Input size="large" prefix={<MobileTwoTone className={styles.prefixIcon} />} placeholder="请输入手机号码" />
                             </Form.Item>
-                            <Form.Item name="captcha" rules={formRules.captcha}>
-                                <Row gutter={8}>
-                                    <Col span={16}>
-                                        <Input size="large" prefix={<MailTwoTone className={styles.prefixIcon} />} placeholder="请输入验证码" />
-                                    </Col>
-                                    <Col span={8}>
-                                        <Button
-                                            disabled={timing}
-                                            className={styles.getCaptcha}
-                                            size="large"
-                                            onClick={() => getCaptcha()}
-                                        >
-                                            { timing ? `${count}秒` : '获取验证码'}
-                                        </Button>
-                                    </Col>
-                                </Row>
-                            </Form.Item>
+                            <Row gutter={8}>
+                                <Col span={16}>
+                                <Form.Item name="captcha" rules={formRules.captcha}>
+                                    <Input size="large" prefix={<MailTwoTone className={styles.prefixIcon} />} placeholder="请输入验证码" />
+                                </Form.Item>
+                                </Col>
+                                <Col span={8}>
+                                    <Button
+                                        disabled={timing}
+                                        className={styles.getCaptcha}
+                                        size="large"
+                                        onClick={() => getCaptcha()}
+                                    >
+                                        { timing ? `${count}秒` : '获取验证码'}
+                                    </Button>
+                                </Col>
+                            </Row>
                         </TabPane>
                     </Tabs>
                     <div>

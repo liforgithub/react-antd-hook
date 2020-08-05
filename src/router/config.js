@@ -48,7 +48,8 @@ const router = [
                         children: [
                             {
                                 path: '/demo1',
-                                redirect: '/demo1/option1'
+                                redirect: '/demo1/option1',
+                                hidden: true
                             },
                             {
                                 path: '/demo1/option1',

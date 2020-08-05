@@ -21,7 +21,7 @@ const renderMenuItem = (routes) => {
     }
 
     return routes
-            .filter(r => r.hidden != true)
+            .filter(r => r.hidden !== true)
             .map((item, index) => {
                 if (item.children && item.children.length > 0) {
                     return <Menu.SubMenu key={item.path} icon={item.icon} title={item.name}>{ renderMenuItem(item.children) }</Menu.SubMenu>
@@ -41,20 +41,16 @@ const BasicLayout = ({route, children}) => {
 
     const history = useHistory()
     history.listen(() => {
-        const list = history.location.pathname.split('/').splice(1);
-        let selectedKeys = list.map((item, index) => `/${list.slice(0, index + 1).join('/')}`)
-        setBreadcrumbList(selectedKeys)
+        setBreadcrumbList(history.location.pathname)
     })
 
     useEffect(() => {
-        const list = pathname.split('/').splice(1);
-        let selectedKeys = list.map((item, index) => `/${list.slice(0, index + 1).join('/')}`)
-        setOpenKeys(selectedKeys);
-        setBreadcrumbList(selectedKeys)
+        setBreadcrumbList(pathname)
     }, []);
 
-    const setBreadcrumbList = selectedKeys => {
-
+    const setBreadcrumbList = pathName => {
+        const list = pathName.split('/').splice(1);
+        let selectedKeys = list.map((item, index) => `/${list.slice(0, index + 1).join('/')}`)
         let itemList = route.children.slice()
         let bList = []
         for (let i = 0; i < selectedKeys.length; i++) {
@@ -68,6 +64,10 @@ const BasicLayout = ({route, children}) => {
                 title: menu.name,
             })
             itemList = menu.children
+        }
+        setOpenKeys(selectedKeys);
+        if (pathName === '/home') {
+            bList = []
         }
         setBremList(bList)
     }
@@ -95,7 +95,7 @@ const BasicLayout = ({route, children}) => {
                             okText: '确认',
                             onOk() {
                                 localStorage.set('token', null)
-                                history.push('/login')
+                                history.push('/user/login')
                             },
                             cancelText: '取消',
                           });
