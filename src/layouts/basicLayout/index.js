@@ -55,7 +55,6 @@ const BasicLayout = ({route, children}) => {
         let bList = []
         for (let i = 0; i < selectedKeys.length; i++) {
             let menu = itemList.find(m => m.path == selectedKeys[i])
-            console.log(menu)
             if (!menu) {
                 break;
             }

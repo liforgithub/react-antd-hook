@@ -29,7 +29,8 @@ const router = [
                     },
                     {
                         path: '/user',
-                        redirect: '/user/login'
+                        redirect: '/user/login',
+                        hidden: true
                     },
                 ]
             },
@@ -47,11 +48,6 @@ const router = [
                         name: 'demo1',
                         children: [
                             {
-                                path: '/demo1',
-                                redirect: '/demo1/option1',
-                                hidden: true
-                            },
-                            {
                                 path: '/demo1/option1',
                                 name: 'option1',
                                 component: lazy(() => import('../pages/demo1/option1'))
@@ -60,7 +56,28 @@ const router = [
                                 path: '/demo1/option3',
                                 name: 'option3',
                                 component: lazy(() => import('../pages/demo1/option3'))
+                            },
+                            {
+                                path: '/demo1',
+                                redirect: '/demo1/option1',
+                                hidden: true
                             }
+                        ]
+                    },
+                    {
+                        path: '/account',
+                        name: '个人信息',
+                        children: [
+                            {
+                                path: '/account/settings',
+                                name: '个人设置',
+                                component: lazy(() => import('../pages/account/settings'))
+                            },
+                            {
+                                path: '/account',
+                                redirect: '/account/settings',
+                                hidden: true
+                            },
                         ]
                     },
                     {
