@@ -65,6 +65,22 @@ const router = [
                         ]
                     },
                     {
+                        path: '/machine',
+                        name: '广告机',
+                        children: [
+                            {
+                                path: '/machine/list',
+                                name: '机器列表',
+                                component: lazy(() => import('../pages/machine/list'))
+                            },
+                            {
+                                path: '/machine',
+                                redirect: '/machine/list',
+                                hidden: true
+                            }
+                        ]
+                    },
+                    {
                         path: '/account',
                         name: '个人信息',
                         children: [

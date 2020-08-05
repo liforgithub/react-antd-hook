@@ -80,7 +80,9 @@ const BasicLayout = ({route, children}) => {
         return (
             <Menu>
                 <Menu.Item key="1" icon={<UserOutlined />}>
-                    个人信息
+                    <Link to="/account/settings">
+                        个人信息
+                    </Link>
                 </Menu.Item>
                 <Menu.Divider />
                 <Menu.Item 
@@ -156,9 +158,10 @@ const BasicLayout = ({route, children}) => {
                             <BellOutlined style={{fontSize: 23, cursor: 'pointer'}} />
                         </Badge>
                         <Dropdown overlay={avatarMenu} placement="bottomLeft" arrow>
-                            <Badge dot={false}>
-                                <Avatar style={{cursor: 'pointer'}} shape="circle" icon={<UserOutlined />} />
-                            </Badge>
+                            <Space style={{cursor: 'pointer'}}>
+                                <Avatar shape="circle" icon={<UserOutlined />} />
+                                <span>木子李</span>
+                            </Space>
                         </Dropdown>
                     </Space>
                 </Header>
