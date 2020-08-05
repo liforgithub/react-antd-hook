@@ -1,61 +1,84 @@
 @import '~antd/es/style/themes/default.less';
 
 .main {
-  width: 368px;
-  margin: 0 auto;
-  @media screen and (max-width: @screen-sm) {
-    width: 95%;
-  }
-
-  :global {
-    .ant-tabs .ant-tabs-bar {
-      margin-bottom: 24px;
-      text-align: center;
-      border-bottom: 0;
+    width: 368px;
+    margin: 0 auto;
+    @media screen and (max-width: @screen-sm) {
+        width: 95%;
     }
-  }
 
-  .getCaptcha {
-    display: block;
-    width: 100%;
-  }
-
-  .icon {
-    margin-left: 16px;
-    color: @text-color-secondary;
-    font-size: 24px;
-    vertical-align: middle;
-    cursor: pointer;
-    transition: color 0.3s;
-
-    &:hover {
-      color: @primary-color;
+    :global {
+        .ant-tabs .ant-tabs-bar {
+            margin-bottom: 24px;
+            text-align: center;
+            border-bottom: 0;
+        }
     }
-  }
 
-  .other {
-    margin-top: 24px;
-    line-height: 22px;
-    text-align: left;
-
-    .register {
-      float: right;
+    .getCaptcha {
+        display: block;
+        width: 100%;
     }
-  }
 
-  .prefixIcon {
-    color: @disabled-color;
-    font-size: @font-size-base;
-  }
+    .icon {
+        margin-left: 16px;
+        color: @text-color-secondary;
+        font-size: 24px;
+        vertical-align: middle;
+        cursor: pointer;
+        transition: color 0.3s;
 
-  .submit {
-    width: 50%;
-  }
-  
-  .login {
-      float: right;
-      line-height: @btn-height-lg;
-  }
+        &:hover {
+            color: @primary-color;
+        }
+    }
+
+    .other {
+        margin-top: 24px;
+        line-height: 22px;
+        text-align: left;
+
+        .register {
+            float: right;
+        }
+    }
+
+    .submit {
+        width: 50%;
+    }
+
+    .login {
+        float: right;
+        line-height: @btn-height-lg;
+    }
+
+
+    .password {
+        margin-bottom: 24px;
+        :global {
+          .ant-form-item-explain {
+            display: none;
+          }
+        }
+    }
+
+    .success,
+    .warning,
+    .error {
+        transition: color 0.3s;
+    }
+
+    .success {
+        color: @success-color;
+    }
+
+    .warning {
+        color: @warning-color;
+    }
+
+    .error {
+        color: @error-color;
+    }
 }
 
 
