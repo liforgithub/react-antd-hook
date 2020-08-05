@@ -31,6 +31,7 @@ const Login = () => {
     const [tabKey, setTabKey] = useState('account')
     const [autoLogin, setAutoLogin] = useState(true);
     const [count, setCount] = useState(120)
+    const [loginLoading, setLoginloading] = useState(false)
 
     const [form] = Form.useForm();
 
@@ -63,9 +64,12 @@ const Login = () => {
     }, [timing])
 
     const onFinish = values => {
-        history.push('/home')
-        console.log(values);
-      };
+        setLoginloading(true)
+        setTimeout(() => {
+            setLoginloading(false)
+            history.push('/home')
+        }, 2000)
+    };
 
     return (
         <div className={styles.main}>
@@ -135,7 +139,7 @@ const Login = () => {
                             忘记密码
                         </a>
                     </div>
-                    <Button size="large" className={styles.submit} type="primary" htmlType="submit">登录</Button>
+                    <Button size="large" loading={loginLoading} className={styles.submit} type="primary" htmlType="submit">登录</Button>
                     <div className={styles.other}>
                         其他登录方式
                         <AlipayCircleOutlined className={styles.icon} />
