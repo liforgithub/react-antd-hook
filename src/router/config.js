@@ -81,6 +81,32 @@ const router = [
                         ]
                     },
                     {
+                        path: '/authority',
+                        name: '权限设置',
+                        children: [
+                            {
+                                path: '/authority/role',
+                                name: '角色管理',
+                                component: lazy(() => import('../pages/authority/role'))
+                            },
+                            {
+                                path: '/authority/role1',
+                                name: '角色管理1',
+                                component: lazy(() => import('../pages/authority/role1'))
+                            },
+                            {
+                                path: '/authority/apiScope',
+                                name: '接口权限',
+                                component: lazy(() => import('../pages/authority/apiScope'))
+                            },
+                            {
+                                path: '/authority',
+                                redirect: '/authority/role',
+                                hidden: true
+                            }
+                        ]
+                    },
+                    {
                         path: '/account',
                         name: '个人信息',
                         children: [
