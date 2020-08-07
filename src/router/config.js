@@ -1,4 +1,5 @@
-import {lazy} from 'react'
+import React, {lazy} from 'react'
+import { HomeOutlined, UserOutlined, SafetyCertificateOutlined } from '@ant-design/icons';
 import BlankLayout from '../layouts/blankLayout'
 import BasicLayout from '../layouts/basicLayout'
 import UserLayout from '../layouts/userLayout'
@@ -41,6 +42,7 @@ const router = [
                     {
                         path: '/home',
                         name: '主页',
+                        icon: <HomeOutlined />,
                         component: lazy(() => import('../pages/home'))
                     },
                     {
@@ -83,6 +85,7 @@ const router = [
                     {
                         path: '/authority',
                         name: '权限设置',
+                        icon: <SafetyCertificateOutlined />,
                         children: [
                             {
                                 path: '/authority/role',
@@ -109,6 +112,7 @@ const router = [
                     {
                         path: '/account',
                         name: '个人信息',
+                        icon: <UserOutlined />,
                         children: [
                             {
                                 path: '/account/settings',
