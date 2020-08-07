@@ -48,6 +48,7 @@ const router = [
                     {
                         path: '/demo1',
                         name: 'demo1',
+                        icon: <SafetyCertificateOutlined />,
                         children: [
                             {
                                 path: '/demo1/option1',
@@ -69,6 +70,7 @@ const router = [
                     {
                         path: '/machine',
                         name: '广告机',
+                        icon: <SafetyCertificateOutlined />,
                         children: [
                             {
                                 path: '/machine/list',

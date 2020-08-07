@@ -76,6 +76,19 @@ const BasicLayout = ({route, children}) => {
         return list.map((item, index) => `/${list.slice(0, index + 1).join('/')}`);
     }, [pathname]);
 
+    const changeCollapsed = () => {
+        console.log("openKeys", openKeys)
+        setCollapsed(!collapsed)
+    }
+
+    const openChange = openKeys => {
+        if (collapsed) {
+            return false;
+        }
+        console.log('openChange', openKeys)
+        setOpenKeys(openKeys)
+    }
+
     const avatarMenu = () => {
         return (
             <Menu>
@@ -108,6 +121,7 @@ const BasicLayout = ({route, children}) => {
         )
     }
 
+    let defaultOpenKeys = collapsed ? {} : { openKeys };
     return (
         <Layout className={styles.customer_component_layout}>
             <Sider trigger={null} collapsible collapsed={collapsed} className={styles.sider}>
@@ -115,9 +129,9 @@ const BasicLayout = ({route, children}) => {
                 <Menu 
                     theme="dark" 
                     mode="inline"
-                    openKeys={openKeys}
+                    {...defaultOpenKeys}
                     selectedKeys={getSelectedKeys}
-                    onOpenChange={openKeys => setOpenKeys(openKeys)}
+                    onOpenChange={openKeys => openChange(openKeys)}
                 >
                     {renderMenuItem(route.children)}
                 </Menu>
@@ -133,7 +147,7 @@ const BasicLayout = ({route, children}) => {
                         {
                             React.createElement(collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
                                 className: styles.trigger,
-                                onClick: () => setCollapsed(!collapsed),
+                                onClick: changeCollapsed,
                             })
                         }
                         <Breadcrumb>
